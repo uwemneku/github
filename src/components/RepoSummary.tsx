@@ -30,6 +30,6 @@ const RepoSummary = ({
 };
 
 
-export default RepoSummary;
+export default React.memo(RepoSummary);
 
 const styles = StyleSheet.create({});

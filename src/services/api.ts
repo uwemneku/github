@@ -1,23 +1,14 @@
 import { Repository, User } from "../types";
 
-const BASE_URL = "https://api.github.com";
-const USER_NAME = "uwemneku";
+const BASE_URL = "https://api.github.com/users/uwemneku";
 
-export const fetchData = async (endpoint: string) => {
-  const response = await fetch(`${BASE_URL}/users/${USER_NAME}${endpoint}`, {
-    headers: {
-      Authorization: "Bearer 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",
-    },
-  });
-  return response;
-};
 export async function getUser() {
-  const response = await fetchData("");
+  const response = await fetch(`${BASE_URL}`);
   return response.json() as Promise<User>;
 }
 
 export async function* fetchDataRecursively(endpoint: string) {
-  let nextLink = `${BASE_URL}/users/${USER_NAME}${endpoint}`;
+  let nextLink = `${BASE_URL}/${endpoint}`;
   while (nextLink) {
     const response = await fetch(nextLink);
     const link = response.headers
@@ -29,18 +20,9 @@ export async function* fetchDataRecursively(endpoint: string) {
     yield response.json() as any as Repository[];
   }
 }
-export async function getUserOrganizations() {
-  const response = await fetchData("/orgs");
-  return response.json();
-}
-
-export async function getUserStarredRepo() {
-  const response = await fetchData("/starred");
-  return response.json();
-}
 
 export async function getNumberOfStaredRepo() {
-  const response = await fetchData("/starred?per_page=1");
+  const response = await fetch(`${BASE_URL}/starred?per_page=1`);
   const link = response.headers
     .get("link")
     ?.split(",")

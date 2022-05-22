@@ -52,10 +52,10 @@ const ProfileDetails = ({
                     left={"location"}
                     right={<StyledText>{location}</StyledText>}
                 />
-                <ListItem
+                {email && <ListItem
                     left={"mail"}
                     right={<StyledText weight="bold" >{email}</StyledText>}
-                />
+                />}
                 <ListItem
                     left={<AntDesign name="twitter" size={15} color="gray" />}
                     right={<StyledText weight="bold" >{twitter_username}</StyledText>}

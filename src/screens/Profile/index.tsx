@@ -30,6 +30,8 @@ const Profile = ({ navigation }: StackScreenProps<HomeParams, 'Profile'>) => {
             const count = await getNumberOfStaredRepo()
             setNumberOfStarredRepo(count)
             setUserData(user)
+            console.log(user);
+
         }
         fetchData()
     }, [])

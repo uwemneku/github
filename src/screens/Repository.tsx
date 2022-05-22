@@ -10,7 +10,7 @@ const Index = ({ route }: StackScreenProps<HomeParams, 'Repository'>) => {
     const [repos, setRepos] = useState<Repository[] | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const repoType = route.params.type;
-    const getData = useMemo(() => fetchDataRecursively(`/${repoType}`), []);
+    const getData = useMemo(() => fetchDataRecursively(repoType), []);
     const handleOnEndReached = useCallback(async () => {
         if (isLoading) return;
         setIsLoading(true);
@@ -50,10 +50,10 @@ const Index = ({ route }: StackScreenProps<HomeParams, 'Repository'>) => {
         </>
     );
 };
-const Item = styled.View`
+const Item = React.memo(styled.View`
   padding: 10px 20px;
   border-bottom-width: 0.2px;
   border-color: gray;
-`;
+`);
 
 export default Index;
