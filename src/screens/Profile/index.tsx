@@ -44,7 +44,6 @@ const Profile = ({ navigation }: StackScreenProps<HomeParams, "Profile">) => {
     const fetchData = useCallback(async () => {
         try {
             errorFetchingData && setErrorFetchingData(false);
-            console.log("fetching data");
             const [user, count, repos] = await Promise.all([
                 getUser(),
                 getNumberOfStaredRepo(),

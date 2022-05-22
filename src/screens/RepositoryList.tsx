@@ -7,6 +7,7 @@ import styled from "styled-components/native";
 import { useIsFocused } from "@react-navigation/native";
 import { SPACES } from "../constants";
 
+// This screen renders a list of repositories.
 const { medium } = SPACES
 const Index = ({ route }: StackScreenProps<HomeParams, "Repository">) => {
     const [repos, setRepos] = useState<Repository[] | null>(null);
@@ -24,7 +25,6 @@ const Index = ({ route }: StackScreenProps<HomeParams, "Repository">) => {
             if (isFetchingMoreData) return;
             setIsFetchingMoreData(true);
             const data = (await getData.next());
-            console.log('data', data);
             if (data.value && isScreenFocused) {
                 repos ? setRepos([...repos, ...data.value]) : setRepos(data.value);
             } else {

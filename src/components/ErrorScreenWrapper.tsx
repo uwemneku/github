@@ -41,7 +41,7 @@ const Container = styled.View`
 
 const Button = styled.TouchableOpacity`
   background-color: white;
-  ${() => `${small}px ${medium}px`}
+  padding: ${() => `${small}px ${medium}px`};
   border-radius: ${reallySmall}px;
 `;
 

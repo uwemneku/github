@@ -12,12 +12,15 @@ export async function* fetchDataRecursively(endpoint: string) {
   let nextLink = `${BASE_URL}/${endpoint}`;
   while (nextLink) {
     try {
-      console.log(`Fetching ${nextLink}`);
       const response = await fetch(nextLink);
+
+      //get the link to the next page
       const link = response.headers
         .get("link")
         ?.split(",")
-        .find((u) => u.includes(`rel="last"`));
+        .find((u) => u.includes(`rel="next"`));
+
+      //format the link to the next page
       nextLink =
         link?.split(";")[0].replace(">", "").replace("<", "").trim() || "";
       yield response.json() as any as Repository[];
