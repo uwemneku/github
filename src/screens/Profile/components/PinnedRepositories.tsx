@@ -1,11 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
-import { ScrollView } from 'react-native-gesture-handler'
-import { pinnedRepoData } from '../../../constants'
-import { Avatar, FlexContainer, RepoSummary, StyledText } from '../../../components'
+import { StyleSheet } from 'react-native'
+import React from 'react'
+import { RepoSummary } from '../../../components'
 import styled from 'styled-components/native'
-import Divider from '../../../components/Divider'
-import { fetchDataRecursively } from '../../../services/api'
 import { Repository } from '../../../types'
 
 interface Props {

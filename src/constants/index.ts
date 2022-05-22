@@ -9,54 +9,15 @@ export const homeListData: listDataType[] = [
     params: "repos",
   },
   {
-    color: "orange",
+    color: "#fa8633",
     label: "Organizations",
     name: "organization",
     params: "orgs",
   },
   {
-    color: "yellow",
+    color: "#fac412",
     label: "Starred",
     name: "star",
     params: "starred",
-  },
-];
-
-export const pinnedRepoData: pinnedRepoType[] = [
-  {
-    description:
-      "A simple React Native app to show the Github API app to show the Github API",
-    maxLines: 2,
-    stargazers_count: 1,
-    language: "TypeScript",
-    name: "Github API",
-  },
-  {
-    description: "A simple React Native app to show the Github API",
-    maxLines: 2,
-    stargazers_count: 1,
-    language: "TypeScript",
-    name: "Github API",
-  },
-  {
-    description: "A simple React Native app to show the Github API",
-    maxLines: 2,
-    stargazers_count: 1,
-    language: "TypeScript",
-    name: "Github API",
-  },
-  {
-    description: "A simple React Native app to show the Github API",
-    maxLines: 2,
-    stargazers_count: 1,
-    language: "TypeScript",
-    name: "Github API",
-  },
-  {
-    description: "A simple React Native app to show the Github API",
-    maxLines: 2,
-    stargazers_count: 1,
-    language: "TypeScript",
-    name: "Github API",
   },
 ];

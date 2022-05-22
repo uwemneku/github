@@ -59,7 +59,7 @@ const Index = ({ route }: StackScreenProps<HomeParams, "Repository">) => {
                     )}
                     onEndReached={fetchData}
                     ListFooterComponent={() =>
-                        isFetchingMoreData ? <LoadingView text="" size={100} /> : null
+                        isFetchingMoreData ? <LoadingView text="" size={40} /> : null
                     }
                 />
             ) : (

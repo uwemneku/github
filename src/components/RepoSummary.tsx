@@ -30,6 +30,7 @@ const RepoSummary = ({
                     <StyledText weight="300">{owner.login}</StyledText>
                 </FlexContainer>
             )}
+            <Divider size={10} />
             <StyledText weight="bold">{name}</StyledText>
             <Divider direction="vertical" size={3} />
             {description && (
@@ -42,7 +43,7 @@ const RepoSummary = ({
                     {description}
                 </StyledText>
             )}
-            <Divider direction="vertical" size={10} />
+            <Divider direction="vertical" size={5} />
             <FlexContainer>
                 <Octicons name="star-fill" color={"gold"} />
                 <Divider direction="horizontal" size={5} />
@@ -51,7 +52,7 @@ const RepoSummary = ({
                 {language && (
                     <>
                         <LanguageColor color={getLanguageColor(language)} />
-                        <Divider direction="horizontal" size={10} />
+                        <Divider direction="horizontal" size={5} />
                         <StyledText color="gray"> {language}</StyledText>
                     </>
                 )}

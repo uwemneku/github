@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
 import {
     CardStyleInterpolators,
     createStackNavigator,
     StackHeaderProps,
 } from "@react-navigation/stack";
-import { ProfileScreen, RepositoryScreen, StarredScreen } from "../screens";
+import { ProfileScreen, RepositoryScreen } from "../screens";
 import { homeNav, HomeParams, repoType } from "../types";
 import Octicons from "@expo/vector-icons/Octicons";
 import { FlexContainer, StyledText } from "../components";
@@ -29,7 +29,7 @@ const Main = () => {
                 options={{ headerShown: false }}
             />
             <Screen
-                name="Repository"
+                name="Repository" //This screen will be used for both starred and user repositories
                 component={RepositoryScreen}
                 options={{
                     header: RepoHeader,
@@ -39,14 +39,16 @@ const Main = () => {
     );
 };
 
+// Header for Repository Screen
 const RepoHeader = ({ route, navigation }: StackHeaderProps) => {
     return (
-        <Header style={{ padding: 20, backgroundColor: "white" }}>
+        <Header>
             <Octicons
                 name="arrow-left"
                 size={30}
                 color="rgba(0, 0, 0, 0.8)"
                 onPress={() => navigation.goBack()}
+                style={{ paddingLeft: 20 }}
             />
             <Divider direction="horizontal" />
             <View>
@@ -60,19 +62,21 @@ const RepoHeader = ({ route, navigation }: StackHeaderProps) => {
     );
 };
 
+//Get the heading of the repo screen based on the type of repo
 const getHeadingText = (routeName: repoType) => {
     switch (routeName) {
-        case "repos":
+        case "repos": //users repos
             return homeNav.Repositories;
-        case "starred":
+        case "starred": // users starred repos
             return homeNav.Starred;
-        case "orgs":
+        case "orgs": // users orgs
             return homeNav.Organizations;
     }
 };
 
 const Header = styled(FlexContainer)`
   padding: 10px 20px;
+  padding-left: 0px;
   background-color: white;
   border-bottom-width: 0.3px;
   border-bottom-color: rgba(0, 0, 0, 0.1);
