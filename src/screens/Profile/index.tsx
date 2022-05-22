@@ -1,9 +1,6 @@
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
-import {
-    LoadingView,
-    NavList,
-} from "../../components";
+import { ErrorScreenWrapper, LoadingView, NavList } from "../../components";
 import {
     fetchDataRecursively,
     getNumberOfStaredRepo,
@@ -21,12 +18,15 @@ import { PinnedRepositories, ProfileDetails } from "./components";
 import { ScrollView } from "react-native-gesture-handler";
 import Divider from "../../components/Divider";
 
+type screenData = {
+    userData: User;
+    numberOfStarredRepo: number;
+    mockPinnedRepo: Repository[];
+};
+
 const Profile = ({ navigation }: StackScreenProps<HomeParams, "Profile">) => {
-    const [data, setData] = useState<{
-        userData: User;
-        numberOfStarredRepo: number;
-        mockPinnedRepo: Repository[];
-    } | null>(null);
+    const [data, setData] = useState<screenData | null>(null);
+    const [errorFetchingData, setErrorFetchingData] = useState(false);
 
     const getCount = useCallback(
         (name: keyof typeof homeNav) => {
@@ -41,25 +41,35 @@ const Profile = ({ navigation }: StackScreenProps<HomeParams, "Profile">) => {
         },
         [data]
     );
-
-    useEffect(() => {
-        const fetchData = async () => {
+    const fetchData = useCallback(async () => {
+        try {
+            errorFetchingData && setErrorFetchingData(false);
+            console.log("fetching data");
             const [user, count, repos] = await Promise.all([
                 getUser(),
                 getNumberOfStaredRepo(),
                 fetchDataRecursively("repos?per_page=5").next(),
             ]);
-            setData({
-                userData: user,
-                numberOfStarredRepo: count,
-                mockPinnedRepo: repos.value || [],
-            });
-        };
+            if ("message" in user) { // possible api limit 
+                setErrorFetchingData(true);
+            } else {
+                setData({
+                    userData: user,
+                    numberOfStarredRepo: count,
+                    mockPinnedRepo: repos.value || [],
+                });
+            }
+        } catch (e) {
+            setErrorFetchingData(true)
+        }
+    }, [errorFetchingData]);
+
+    useEffect(() => {
         fetchData();
     }, []);
 
     return (
-        <>
+        <ErrorScreenWrapper isVisible={errorFetchingData} onPress={fetchData}>
             {data ? (
                 <ScrollView>
                     <ProfileDetails {...data.userData} />
@@ -85,7 +95,7 @@ const Profile = ({ navigation }: StackScreenProps<HomeParams, "Profile">) => {
             ) : (
                 <LoadingView text="Fetching user data" />
             )}
-        </>
+        </ErrorScreenWrapper>
     );
 };
 

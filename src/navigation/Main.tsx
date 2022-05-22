@@ -3,6 +3,7 @@ import React from "react";
 import {
     CardStyleInterpolators,
     createStackNavigator,
+    StackHeaderProps,
 } from "@react-navigation/stack";
 import { ProfileScreen, RepositoryScreen, StarredScreen } from "../screens";
 import { homeNav, HomeParams, repoType } from "../types";
@@ -31,27 +32,31 @@ const Main = () => {
                 name="Repository"
                 component={RepositoryScreen}
                 options={{
-                    header: ({ route, navigation }) => (
-                        <Header style={{ padding: 20, backgroundColor: "white" }}>
-                            <Octicons
-                                name="arrow-left"
-                                size={30}
-                                color="rgba(0, 0, 0, 0.8)"
-                                onPress={() => navigation.goBack()}
-                            />
-                            <Divider direction="horizontal" />
-                            <View>
-                                {/* Due  to the structure of the app, username and type property will always be available before users navigate to this screen*/}
-                                <StyledText weight="300">{route.params?.username}</StyledText>
-                                <StyledText weight="bold" size={20}>
-                                    {getHeadingText(route.params?.type)}
-                                </StyledText>
-                            </View>
-                        </Header>
-                    ),
+                    header: RepoHeader,
                 }}
             />
         </Navigator>
+    );
+};
+
+const RepoHeader = ({ route, navigation }: StackHeaderProps) => {
+    return (
+        <Header style={{ padding: 20, backgroundColor: "white" }}>
+            <Octicons
+                name="arrow-left"
+                size={30}
+                color="rgba(0, 0, 0, 0.8)"
+                onPress={() => navigation.goBack()}
+            />
+            <Divider direction="horizontal" />
+            <View>
+                {/* Due  to the structure of the app, username and type property will always be available before users navigate to this screen*/}
+                <StyledText weight="300">{route.params?.username}</StyledText>
+                <StyledText weight="bold" size={20}>
+                    {getHeadingText(route.params?.type)}
+                </StyledText>
+            </View>
+        </Header>
     );
 };
 

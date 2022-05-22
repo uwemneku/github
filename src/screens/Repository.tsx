@@ -1,37 +1,51 @@
 import { FlatList } from "react-native";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { HomeParams, Repository, StackScreenProps } from "../types";
-import { LoadingView, RepoSummary } from "../components";
+import { ErrorScreenWrapper, LoadingView, RepoSummary } from "../components";
 import { fetchDataRecursively } from "../services/api";
 import styled from "styled-components/native";
 import { useIsFocused } from "@react-navigation/native";
 
-
-const Index = ({ route }: StackScreenProps<HomeParams, 'Repository'>) => {
+const Index = ({ route }: StackScreenProps<HomeParams, "Repository">) => {
     const [repos, setRepos] = useState<Repository[] | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const isScreenFocused = useIsFocused()
+    const [errorFetchingData, setErrorFetchingData] = useState(false);
+    const [isFetchingMoreData, setIsFetchingMoreData] = useState(false);
+
+    const isScreenFocused = useIsFocused();
     const repoType = route.params.type;
-    const showRepoHeader = repoType !== 'repos';
+    const showRepoHeader = repoType !== "repos";
     const getData = useMemo(() => fetchDataRecursively(repoType), []);
-    const handleOnEndReached = useCallback(async () => {
-        if (isLoading) return;
-        setIsLoading(true);
-        const newRepos = await getData.next();
-        isScreenFocused && newRepos.value && setRepos([...repos!, ...newRepos.value]);
-        setIsLoading(false);
-    }, [repos, getData, isLoading]);
+
+    const fetchData = useCallback(async () => {
+        console.log('fetching');
+        try {
+            errorFetchingData && setErrorFetchingData(false);
+            if (isFetchingMoreData) return;
+            setIsFetchingMoreData(true);
+            const data = (await getData.next()).value;
+            console.log('data', data);
+            if (data) {
+                repos ? setRepos([...repos, ...data]) : setRepos(data);
+            } else {
+                setErrorFetchingData(true)
+            }
+            setIsFetchingMoreData(false);
+        } catch (error) {
+            console.log("error .....");
+            setErrorFetchingData(true);
+            setIsFetchingMoreData(false);
+        }
+    }, [repos, getData, isFetchingMoreData, errorFetchingData]);
+
     useEffect(() => {
-        const repo = async () => {
-            const repos = await getData.next();
-            isScreenFocused && repos.value &&
-                setRepos(repos.value);
-        };
-        repo();
+        fetchData();
     }, []);
+    useEffect(() => {
+        console.log(repos);
+    }, [repos]);
 
     return (
-        <>
+        <ErrorScreenWrapper isVisible={errorFetchingData} onPress={fetchData}>
             {repos ? (
                 <FlatList
                     data={repos}
@@ -43,13 +57,15 @@ const Index = ({ route }: StackScreenProps<HomeParams, 'Repository'>) => {
                             <RepoSummary showHeader={showRepoHeader} {...item} maxLines={3} />
                         </Item>
                     )}
-                    onEndReached={handleOnEndReached}
-                    ListFooterComponent={() => isLoading ? <LoadingView text="" size={100} /> : null}
+                    onEndReached={fetchData}
+                    ListFooterComponent={() =>
+                        isFetchingMoreData ? <LoadingView text="" size={100} /> : null
+                    }
                 />
             ) : (
                 <LoadingView text="" size={80} />
             )}
-        </>
+        </ErrorScreenWrapper>
     );
 };
 const Item = React.memo(styled.View`
