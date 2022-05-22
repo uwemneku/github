@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components/native';
 import StyledText from './Text';
 
-const LoadingView = ({ text, size = 200 }: { text: string, size?: number }) => {
+const LoadingView = ({ text, size = 80 }: { text: string, size?: number }) => {
     return (
         <EmptyView >
             <ActivityIndicator size={size} color='blue' />

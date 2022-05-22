@@ -1,23 +1,24 @@
 import { listDataType, pinnedRepoType } from "../types";
-
+import colors from "./colors.json";
+export const languageColors = colors;
 export const homeListData: listDataType[] = [
   {
     color: "gray",
     label: "Repositories",
     name: "repo",
-    params: { type: "repos" },
+    params: "repos",
   },
   {
     color: "orange",
     label: "Organizations",
     name: "organization",
-    params: { type: "orgs" },
+    params: "orgs",
   },
   {
     color: "yellow",
     label: "Starred",
     name: "star",
-    params: { type: "starred" },
+    params: "starred",
   },
 ];
 

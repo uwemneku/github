@@ -1,6 +1,6 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
 import { Repository, User } from "./apiModels";
-import { HomeParams } from "./navigation";
+import { HomeParams, repoType } from "./navigation";
 
 export * from "./apiModels";
 export * from "./navigation";
@@ -15,7 +15,7 @@ export interface listDataType {
   label: keyof typeof homeNav;
   color: string;
   name: string;
-  params: NonNullable<NavigatorScreenParams<HomeParams>["params"]>;
+  params: repoType;
 }
 
 export interface pinnedRepoType

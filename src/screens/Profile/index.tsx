@@ -50,7 +50,7 @@ const Profile = ({ navigation }: StackScreenProps<HomeParams, 'Profile'>) => {
                                 key={label}
                                 count={getCount(label)}
                                 icon={{ color, name }}
-                                onPress={() => navigation.navigate('Repository', params)}
+                                onPress={() => navigation.navigate('Repository', { type: params, username: userData.login })}
                                 {...{ label }}
                             />
                         ))}

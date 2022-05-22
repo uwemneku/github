@@ -34,26 +34,27 @@ const Index = ({ route }: StackScreenProps<HomeParams, 'Repository'>) => {
             {repos ? (
                 <FlatList
                     data={repos}
-                    style={{ backgroundColor: "white", paddingVertical: 10 }}
+                    style={{ backgroundColor: "white" }}
+                    contentContainerStyle={{ paddingVertical: 20 }}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
                         <Item>
-                            <RepoSummary {...item} />
+                            <RepoSummary {...item} maxLines={3} />
                         </Item>
                     )}
                     onEndReached={handleOnEndReached}
                     ListFooterComponent={() => isLoading ? <LoadingView text="" size={100} /> : null}
                 />
             ) : (
-                <LoadingView text="loading" />
+                <LoadingView text="" size={80} />
             )}
         </>
     );
 };
 const Item = React.memo(styled.View`
-  padding: 10px 20px;
-  border-bottom-width: 0.2px;
-  border-color: gray;
+  padding: 15px 20px;
+  border-bottom-width: 0.4px;
+  border-bottom-color: rgba(0, 0, 0, 0.3);
 `);
 
 export default Index;
