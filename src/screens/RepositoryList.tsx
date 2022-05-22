@@ -1,7 +1,7 @@
 import { FlatList } from "react-native";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { HomeParams, Repository, StackScreenProps } from "../types";
-import { ErrorScreenWrapper, LoadingView, RepoSummary } from "../components";
+import { ErrorScreenWrapper, LoadingView, RepoSummary, SlideInView } from "../components";
 import { fetchDataRecursively } from "../services/api";
 import styled from "styled-components/native";
 import { useIsFocused } from "@react-navigation/native";
@@ -21,15 +21,21 @@ const Index = ({ route }: StackScreenProps<HomeParams, "Repository">) => {
 
     const fetchData = useCallback(async () => {
         try {
+            // reset error state
             errorFetchingData && setErrorFetchingData(false);
+            // don't fetch if already fetching
             if (isFetchingMoreData) return;
-            setIsFetchingMoreData(true);
+            setIsFetchingMoreData(true);        // set fetching state
             const data = (await getData.next());
+
             if (data.value && isScreenFocused) {
+                // append new data to existing data
                 repos ? setRepos([...repos, ...data.value]) : setRepos(data.value);
             } else {
+                // set error state if generator function is not done and screen is not focused
                 !data.done && setErrorFetchingData(true)
             }
+            // reset fetching state
             setIsFetchingMoreData(false);
         } catch (error) {
             setErrorFetchingData(true);
@@ -44,21 +50,23 @@ const Index = ({ route }: StackScreenProps<HomeParams, "Repository">) => {
     return (
         <ErrorScreenWrapper isVisible={errorFetchingData} onPress={fetchData}>
             {repos ? (
-                <FlatList
-                    data={repos}
-                    style={{ backgroundColor: "white" }}
-                    contentContainerStyle={{ paddingVertical: medium }}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }) => (
-                        <Item>
-                            <RepoSummary showHeader={showRepoHeader} {...item} maxLines={3} />
-                        </Item>
-                    )}
-                    onEndReached={fetchData}
-                    ListFooterComponent={() =>
-                        isFetchingMoreData ? <LoadingView text="" size={40} /> : null
-                    }
-                />
+                <SlideInView>
+                    <FlatList
+                        data={repos}
+                        style={{ backgroundColor: "white" }}
+                        contentContainerStyle={{ paddingVertical: medium }}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) => (
+                            <Item>
+                                <RepoSummary showHeader={showRepoHeader} {...item} maxLines={3} />
+                            </Item>
+                        )}
+                        onEndReached={fetchData}
+                        ListFooterComponent={() =>
+                            isFetchingMoreData ? <LoadingView text="" size={40} /> : null
+                        }
+                    />
+                </SlideInView>
             ) : (
                 <LoadingView text="" size={80} />
             )}

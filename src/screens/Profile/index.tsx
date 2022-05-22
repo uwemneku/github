@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
-import { ErrorScreenWrapper, LoadingView, NavList } from "../../components";
+import { ErrorScreenWrapper, LoadingView, NavList, SlideInView } from "../../components";
 import {
     fetchDataRecursively,
     getNumberOfStaredRepo,
@@ -17,6 +17,7 @@ import { homeListData } from "../../constants";
 import { PinnedRepositories, ProfileDetails } from "./components";
 import { ScrollView } from "react-native-gesture-handler";
 import Divider from "../../components/Divider";
+import { SlideFromRightIOS } from "@react-navigation/stack/lib/typescript/src/TransitionConfigs/TransitionPresets";
 
 type screenData = {
     userData: User;
@@ -70,27 +71,29 @@ const Profile = ({ navigation }: StackScreenProps<HomeParams, "Profile">) => {
     return (
         <ErrorScreenWrapper isVisible={errorFetchingData} onPress={fetchData}>
             {data ? (
-                <ScrollView>
-                    <ProfileDetails {...data.userData} />
-                    <Divider />
-                    <PinnedRepositories data={data.mockPinnedRepo} />
-                    <View>
-                        {homeListData.map(({ label, color, params, name }) => (
-                            <NavList
-                                key={label}
-                                count={getCount(label)}
-                                icon={{ color, name }}
-                                onPress={() =>
-                                    navigation.navigate("Repository", {
-                                        type: params,
-                                        username: data.userData.login,
-                                    })
-                                }
-                                {...{ label }}
-                            />
-                        ))}
-                    </View>
-                </ScrollView>
+                <SlideInView >
+                    <ScrollView>
+                        <ProfileDetails {...data.userData} />
+                        <Divider />
+                        <PinnedRepositories data={data.mockPinnedRepo} />
+                        <View>
+                            {homeListData.map(({ label, color, params, name }) => (
+                                <NavList
+                                    key={label}
+                                    count={getCount(label)}
+                                    icon={{ color, name }}
+                                    onPress={() =>
+                                        navigation.navigate("Repository", {
+                                            type: params,
+                                            username: data.userData.login,
+                                        })
+                                    }
+                                    {...{ label }}
+                                />
+                            ))}
+                        </View>
+                    </ScrollView>
+                </SlideInView>
             ) : (
                 <LoadingView text="Fetching user data" />
             )}
