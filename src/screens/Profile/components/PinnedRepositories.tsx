@@ -1,23 +1,23 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
 import { pinnedRepoData } from '../../../constants'
 import { Avatar, FlexContainer, RepoSummary, StyledText } from '../../../components'
 import styled from 'styled-components/native'
 import Divider from '../../../components/Divider'
+import { fetchDataRecursively } from '../../../services/api'
+import { Repository } from '../../../types'
 
-const PinnedRepositories = () => {
+interface Props {
+    data: Repository[]
+}
+const PinnedRepositories = ({ data }: Props) => {
+
     return (
-        <Container horizontal showsHorizontalScrollIndicator={false} >
-            {pinnedRepoData.map((data, index) =>
+        <Container horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ padding: 20 }} >
+            {data.map((data, index) =>
                 <ItemContainer key={index} >
-                    <FlexContainer>
-                        <Avatar imageUrl="https://avatars.githubusercontent.com/u/30045115?v=4" size={20} />
-                        <Divider direction="horizontal" size={10} />
-                        <StyledText weight="300" >name</StyledText>
-                    </FlexContainer>
-                    <Divider />
-                    <RepoSummary  {...data} maxLines={1} />
+                    <RepoSummary showHeader  {...data} maxLines={1} />
                 </ItemContainer>
             )}
         </Container>
@@ -26,7 +26,6 @@ const PinnedRepositories = () => {
 
 
 const Container = styled.ScrollView`
-    padding: 20px;
     border-width: 0px;
     border-bottom-width: 0.5px;
     background-color: white;

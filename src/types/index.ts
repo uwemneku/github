@@ -21,7 +21,7 @@ export interface listDataType {
 export interface pinnedRepoType
   extends Pick<
     Repository,
-    "name" | "description" | "stargazers_count" | "language"
+    "name" | "description" | "stargazers_count" | "language" | "owner"
   > {
   /**Maximum number of lines to show the description before clipping*/
   maxLines?: number;

@@ -4,26 +4,27 @@ import { HomeParams, Repository, StackScreenProps } from "../types";
 import { LoadingView, RepoSummary } from "../components";
 import { fetchDataRecursively } from "../services/api";
 import styled from "styled-components/native";
+import { useIsFocused } from "@react-navigation/native";
 
 
 const Index = ({ route }: StackScreenProps<HomeParams, 'Repository'>) => {
     const [repos, setRepos] = useState<Repository[] | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const isScreenFocused = useIsFocused()
     const repoType = route.params.type;
+    const showRepoHeader = repoType !== 'repos';
     const getData = useMemo(() => fetchDataRecursively(repoType), []);
     const handleOnEndReached = useCallback(async () => {
         if (isLoading) return;
         setIsLoading(true);
         const newRepos = await getData.next();
-        newRepos.value && setRepos([...repos!, ...newRepos.value]);
-        console.log(newRepos);
+        isScreenFocused && newRepos.value && setRepos([...repos!, ...newRepos.value]);
         setIsLoading(false);
     }, [repos, getData, isLoading]);
     useEffect(() => {
         const repo = async () => {
             const repos = await getData.next();
-            // console.log(repos);
-            repos.value &&
+            isScreenFocused && repos.value &&
                 setRepos(repos.value);
         };
         repo();
@@ -39,7 +40,7 @@ const Index = ({ route }: StackScreenProps<HomeParams, 'Repository'>) => {
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
                         <Item>
-                            <RepoSummary {...item} maxLines={3} />
+                            <RepoSummary showHeader={showRepoHeader} {...item} maxLines={3} />
                         </Item>
                     )}
                     onEndReached={handleOnEndReached}
