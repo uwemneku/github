@@ -46,7 +46,7 @@ const RepoSummary = ({
             <Divider direction="vertical" size={5} />
             <FlexContainer>
                 <Octicons name="star-fill" color={"gold"} />
-                <Divider direction="horizontal" size={5} />
+                <Divider direction="horizontal" size={3} />
                 <StyledText color="gray">{formatNumber(stargazers_count)}</StyledText>
                 <Divider direction="horizontal" size={10} />
                 {language && (
