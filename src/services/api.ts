@@ -20,7 +20,7 @@ export async function* fetchDataRecursively(endpoint: string) {
         ?.split(",")
         .find((u) => u.includes(`rel="next"`));
 
-      //format the link to the next page
+      //format the link to the next page and save it for the next iteration
       nextLink =
         link?.split(";")[0].replace(">", "").replace("<", "").trim() || "";
       yield response.json() as any as Repository[];

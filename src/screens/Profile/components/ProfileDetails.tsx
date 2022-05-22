@@ -24,6 +24,7 @@ type Props = Pick<
 
 const { small, medium } = SPACES
 
+// Renders the profile details of a user.
 const ProfileDetails = ({
     avatar_url,
     bio,
