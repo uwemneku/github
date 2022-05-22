@@ -1,13 +1,13 @@
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
-import { NavList, StyledText } from "../../components";
+import { FlexContainer, LoadingView, NavList, StyledText } from "../../components";
 import { getNumberOfStaredRepo, getUser, } from "../../services/api";
 import { homeNav, HomeParams, StackScreenProps, User } from "../../types";
-import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { homeListData } from "../../constants";
-import { PinnedRepositories, ProfileDetails } from "./components";
+import { FollowButton, PinnedRepositories, ProfileDetails } from "./components";
 import { ScrollView } from "react-native-gesture-handler";
-import styled from "styled-components/native";
+import Divider from "../../components/Divider";
+
 
 const Profile = ({ navigation }: StackScreenProps<HomeParams, 'Profile'>) => {
     const [userData, setUserData] = useState<User | null>(null)
@@ -27,8 +27,8 @@ const Profile = ({ navigation }: StackScreenProps<HomeParams, 'Profile'>) => {
     useEffect(() => {
         const fetchData = async () => {
             const user = await getUser()
-            const s = await getNumberOfStaredRepo()
-            setNumberOfStarredRepo(s)
+            const count = await getNumberOfStaredRepo()
+            setNumberOfStarredRepo(count)
             setUserData(user)
         }
         fetchData()
@@ -39,39 +39,28 @@ const Profile = ({ navigation }: StackScreenProps<HomeParams, 'Profile'>) => {
         <>
             {userData ? (
                 <ScrollView>
-                    <View>
-                        <Icon name="settings-helper" size={40} />
-                        <Icon name="settings-helper" size={40} />
-                    </View>
-
                     <ProfileDetails {...userData} />
+                    <Divider />
                     <PinnedRepositories />
-                    <View>
-                        {homeListData.map(({ label, color, params }) => (
+                    <View >
+                        {homeListData.map(({ label, color, params, name }) => (
                             <NavList
                                 key={label}
                                 count={getCount(label)}
-                                icon={{ color, name: "hello" }}
-                                onPress={() => navigation.navigate(params)}
+                                icon={{ color, name }}
+                                onPress={() => navigation.navigate('Repository', params)}
                                 {...{ label }}
                             />
                         ))}
                     </View>
                 </ScrollView>
             ) :
-                <EmptyView >
-                    <ActivityIndicator size={200} color='blue' />
-                    <StyledText >Fetching user data</StyledText>
-                </EmptyView>
+                <LoadingView text="Fetching user data" />
             }
         </>
     );
 };
 
-const EmptyView = styled.View`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    `;
+
 
 export default Profile;

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import Icon from '@expo/vector-icons/MaterialCommunityIcons'
+import Icon from '@expo/vector-icons/Octicons'
 import StyledText from './Text'
 
 interface Props {
@@ -14,7 +14,7 @@ const List = ({ count, icon, label, onPress }: Props) => {
     return (
         <Container onPress={onPress} >
             <IconWrapper color={icon.color} >
-                <Icon name={'account'} size={20} color={'white'} />
+                <Icon name={icon.name as any} size={20} color={'white'} />
             </IconWrapper>
             <StyledText weight='700' size={15} style={{ flex: 1 }} >{label}</StyledText>
             <StyledText weight='400' >{count}</StyledText>
@@ -36,6 +36,7 @@ const Container = styled.TouchableOpacity`
     padding: 10px 20px;
     flex-direction: row;
     align-items: center;
+    background-color: white;
 `
 
 export default List

@@ -1,11 +1,12 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components/native";
 import { Avatar, FlexContainer, StyledText } from "../../../components";
 import { User } from "../../../types";
-import Octicons from '@expo/vector-icons/Octicons';
-import AntDesign from '@expo/vector-icons/AntDesign';
+import Octicons from "@expo/vector-icons/Octicons";
+import AntDesign from "@expo/vector-icons/AntDesign";
 import Divider from "../../../components/Divider";
+import FollowButton from "./FollowButton";
 
 type Props = Pick<
     User,
@@ -45,38 +46,70 @@ const ProfileDetails = ({
                 </View>
             </Header>
             <StyledText>{bio}</StyledText>
+            <Divider />
             <View>
-                <FlexContainer>
-                    <Octicons name="location" size={15} color="gray" />
-                    <Divider />
-                    <StyledText >{location}</StyledText>
-                </FlexContainer>
-                <FlexContainer>
-                    <Octicons name="mail" size={15} color="gray" />
-                    <Divider />
-                    <StyledText >{email}</StyledText>
-                </FlexContainer>
-                <FlexContainer>
-                    <AntDesign name="twitter" size={15} color='gray' />
-                    <StyledText weight="bold">{twitter_username}</StyledText>
-                </FlexContainer>
-                <FlexContainer>
-                    <FlexContainer>
-                        <StyledText weight="bold">{followers}</StyledText>
-                        <StyledText weight="bold">followers</StyledText>
-                    </FlexContainer>
-                    <FlexContainer>
-                        <StyledText weight="bold">{following}</StyledText>
-                        <StyledText weight="bold">following</StyledText>
-                    </FlexContainer>
-                </FlexContainer>
+                <ListItem
+                    left={"location"}
+                    right={<StyledText>{location}</StyledText>}
+                />
+                <ListItem
+                    left={"mail"}
+                    right={<StyledText weight="bold" >{email}</StyledText>}
+                />
+                <ListItem
+                    left={<AntDesign name="twitter" size={15} color="gray" />}
+                    right={<StyledText weight="bold" >{twitter_username}</StyledText>}
+                />
+                <ListItem
+                    left={"person"}
+                    right={
+                        <>
+                            <FlexContainer>
+                                <StyledText weight="bold">{followers}</StyledText>
+                                <Divider direction="horizontal" size={8} />
+                                <StyledText >followers</StyledText>
+                            </FlexContainer>
+                            <Spacing />
+                            <FlexContainer>
+                                <StyledText weight="bold">{following}</StyledText>
+                                <Divider direction="horizontal" size={8} />
+                                <StyledText >following</StyledText>
+                            </FlexContainer>
+                        </>
+                    }
+                />
             </View>
+            <FollowButton />
         </Container>
     );
 };
 
+const ListItem = ({
+    left,
+    right,
+}: {
+        [key in "left" | "right"]: key extends "left"
+        ? JSX.Element | string
+        : JSX.Element;
+    }) => {
+    return (
+        <FlexContainer style={{ marginBottom: 10 }} >
+            {typeof left === "string" ? (
+                <Octicons name={left as any} size={15} color="gray" />
+            ) : (
+                left
+            )}
+            <Spacing />
+            {right}
+        </FlexContainer>
+    );
+};
+
+const Spacing = () => <Divider direction="horizontal" size={10} />;
+
 const Container = styled.View`
   padding: 20px;
+  background-color: white;
 `;
 
 const Header = styled.View`

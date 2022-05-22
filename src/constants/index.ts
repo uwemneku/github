@@ -4,20 +4,20 @@ export const homeListData: listDataType[] = [
   {
     color: "gray",
     label: "Repositories",
-    name: "bookmark",
-    params: "Profile",
+    name: "repo",
+    params: { type: "repos" },
   },
   {
     color: "orange",
     label: "Organizations",
-    name: "bookmark",
-    params: "Profile",
+    name: "organization",
+    params: { type: "orgs" },
   },
   {
     color: "yellow",
     label: "Starred",
-    name: "bookmark",
-    params: "Profile",
+    name: "star",
+    params: { type: "starred" },
   },
 ];
 

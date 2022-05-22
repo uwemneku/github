@@ -15,14 +15,9 @@ const RepoSummary = ({
     maxLines,
 }: pinnedRepoType) => {
     return (
-        <Container>
-            <FlexContainer>
-                <Avatar imageUrl="https://avatars.githubusercontent.com/u/30045115?v=4" size={20} />
-                <Divider direction="horizontal" size={10} />
-                <StyledText weight="300" >name</StyledText>
-            </FlexContainer>
+        <View>
             <StyledText weight="bold"  >{name}</StyledText>
-            <StyledText ellipsizeMode="tail" numberOfLines={maxLines} weight="400" >{description}</StyledText>
+            {description && <StyledText ellipsizeMode="tail" numberOfLines={maxLines} weight="400" >{description}</StyledText>}
             <Divider direction="vertical" size={10} />
             <FlexContainer>
                 <FlexContainer>
@@ -30,18 +25,11 @@ const RepoSummary = ({
                 </FlexContainer>
                 <StyledText color="gray" > {language}</StyledText>
             </FlexContainer>
-        </Container>
+        </View>
     );
 };
 
-const Container = styled.View`
-    padding: 15px;
-    width: 320px;
-    border-width: 0.5px;
-    margin-right: 20px;
-    border-radius: 5px;
-    border-color: gray;
-`
+
 export default RepoSummary;
 
 const styles = StyleSheet.create({});

@@ -2,7 +2,7 @@ import { ParamListBase, RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 export type HomeParams = {
   Profile: undefined;
-  Home: undefined;
+  Repository: { type: "repos" | "orgs" | "starred" };
 };
 
 export interface StackScreenProps<
