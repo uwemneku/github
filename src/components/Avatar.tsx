@@ -20,7 +20,6 @@ const Container = styled.View<Required<Pick<Props, 'size'>>>`
     height: ${({ size }) => size}px;
     overflow: hidden;
     border-radius: ${({ size }) => size / 2}px;
-    background-color: red;
 `
 
 const StyledImage = styled.Image`

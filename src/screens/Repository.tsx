@@ -22,12 +22,12 @@ const Index = ({ route }: StackScreenProps<HomeParams, "Repository">) => {
             errorFetchingData && setErrorFetchingData(false);
             if (isFetchingMoreData) return;
             setIsFetchingMoreData(true);
-            const data = (await getData.next()).value;
+            const data = (await getData.next());
             console.log('data', data);
-            if (data) {
-                repos ? setRepos([...repos, ...data]) : setRepos(data);
+            if (data.value) {
+                repos ? setRepos([...repos, ...data.value]) : setRepos(data.value);
             } else {
-                setErrorFetchingData(true)
+                !data.done && setErrorFetchingData(true)
             }
             setIsFetchingMoreData(false);
         } catch (error) {
