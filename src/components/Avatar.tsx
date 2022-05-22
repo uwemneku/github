@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components/native'
 
 interface Props {
-    /**The size of the avatar. Default size of 50 */
+    /**The size of the avatar. Default size of 80 */
     size?: number
     imageUrl: string
 }

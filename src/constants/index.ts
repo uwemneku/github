@@ -21,3 +21,12 @@ export const homeListData: listDataType[] = [
     params: "starred",
   },
 ];
+
+export enum SPACES {
+  tiny = 3,
+  reallySmall = 5,
+  small = 10,
+  medium = 20,
+  large = 40,
+  extraLarge = 80,
+}

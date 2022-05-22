@@ -5,9 +5,11 @@ import FlexContainer from "./FlexContainer";
 import { pinnedRepoType } from "../types";
 import Divider from "./Divider";
 import Octicons from "@expo/vector-icons/Octicons";
-import { languageColors } from "../constants";
+import { languageColors, SPACES } from "../constants";
 import styled from "styled-components/native";
 import Avatar from "./Avatar";
+
+const { small, reallySmall, medium, tiny } = SPACES;
 
 const RepoSummary = ({
     name,
@@ -22,17 +24,14 @@ const RepoSummary = ({
         <View>
             {showHeader && (
                 <FlexContainer>
-                    <Avatar
-                        imageUrl={owner.avatar_url}
-                        size={20}
-                    />
-                    <Divider direction="horizontal" size={10} />
+                    <Avatar imageUrl={owner.avatar_url} size={medium} />
+                    <Divider direction="horizontal" size={small} />
                     <StyledText weight="300">{owner.login}</StyledText>
                 </FlexContainer>
             )}
-            <Divider size={10} />
+            <Divider size={small} />
             <StyledText weight="bold">{name}</StyledText>
-            <Divider direction="vertical" size={3} />
+            <Divider direction="vertical" size={tiny} />
             {description && (
                 <StyledText
                     ellipsizeMode="tail"
@@ -43,16 +42,16 @@ const RepoSummary = ({
                     {description}
                 </StyledText>
             )}
-            <Divider direction="vertical" size={5} />
+            <Divider direction="vertical" size={reallySmall} />
             <FlexContainer>
                 <Octicons name="star-fill" color={"gold"} />
-                <Divider direction="horizontal" size={3} />
+                <Divider direction="horizontal" size={tiny} />
                 <StyledText color="gray">{formatNumber(stargazers_count)}</StyledText>
-                <Divider direction="horizontal" size={10} />
+                <Divider direction="horizontal" size={small} />
                 {language && (
                     <>
                         <LanguageColor color={getLanguageColor(language)} />
-                        <Divider direction="horizontal" size={5} />
+                        <Divider direction="horizontal" size={small} />
                         <StyledText color="gray"> {language}</StyledText>
                     </>
                 )}
@@ -70,9 +69,9 @@ const getLanguageColor = (language: string) => {
 };
 const LanguageColor = styled.View<{ color: string }>`
   background-color: ${({ color }) => color};
-  width: 10px;
-  height: 10px;
-  border-radius: 5px;
+  width: ${small}px;
+  height: ${small}px;
+  border-radius: ${reallySmall}px;
 `;
 export default React.memo(RepoSummary);
 

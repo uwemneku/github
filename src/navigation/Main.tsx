@@ -11,8 +11,10 @@ import Octicons from "@expo/vector-icons/Octicons";
 import { FlexContainer, StyledText } from "../components";
 import Divider from "../components/Divider";
 import styled from "styled-components/native";
+import { SPACES } from "../constants";
 
 const { Navigator, Screen } = createStackNavigator<HomeParams>();
+const { small, medium } = SPACES
 
 const Main = () => {
     return (
@@ -45,16 +47,16 @@ const RepoHeader = ({ route, navigation }: StackHeaderProps) => {
         <Header>
             <Octicons
                 name="arrow-left"
-                size={30}
+                size={medium}
                 color="rgba(0, 0, 0, 0.8)"
                 onPress={() => navigation.goBack()}
-                style={{ paddingLeft: 20 }}
+                style={{ paddingLeft: medium }}
             />
             <Divider direction="horizontal" />
             <View>
                 {/* Due  to the structure of the app, username and type property will always be available before users navigate to this screen*/}
                 <StyledText weight="300">{route.params?.username}</StyledText>
-                <StyledText weight="bold" size={20}>
+                <StyledText weight="bold" size={medium}>
                     {getHeadingText(route.params?.type)}
                 </StyledText>
             </View>
@@ -75,7 +77,7 @@ const getHeadingText = (routeName: repoType) => {
 };
 
 const Header = styled(FlexContainer)`
-  padding: 10px 20px;
+  padding: ${() => `${small}px ${medium}px`};
   padding-left: 0px;
   background-color: white;
   border-bottom-width: 0.3px;

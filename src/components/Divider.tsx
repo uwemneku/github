@@ -1,11 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
 import styled from 'styled-components/native'
+import { SPACES } from '../constants'
 
 interface Props {
     direction?: 'horizontal' | 'vertical'
     size?: number
 }
+
+const { medium } = SPACES
 
 const Divider = styled.View<Props>`
     width: ${({ size, direction }) => direction === 'horizontal' ? size : 0}px;
@@ -13,6 +14,6 @@ const Divider = styled.View<Props>`
     `
 Divider.defaultProps = {
     direction: 'vertical',
-    size: 20,
+    size: medium,
 }
 export default Divider

@@ -5,7 +5,9 @@ import { ErrorScreenWrapper, LoadingView, RepoSummary } from "../components";
 import { fetchDataRecursively } from "../services/api";
 import styled from "styled-components/native";
 import { useIsFocused } from "@react-navigation/native";
+import { SPACES } from "../constants";
 
+const { medium } = SPACES
 const Index = ({ route }: StackScreenProps<HomeParams, "Repository">) => {
     const [repos, setRepos] = useState<Repository[] | null>(null);
     const [errorFetchingData, setErrorFetchingData] = useState(false);
@@ -17,21 +19,19 @@ const Index = ({ route }: StackScreenProps<HomeParams, "Repository">) => {
     const getData = useMemo(() => fetchDataRecursively(repoType), []);
 
     const fetchData = useCallback(async () => {
-        console.log('fetching');
         try {
             errorFetchingData && setErrorFetchingData(false);
             if (isFetchingMoreData) return;
             setIsFetchingMoreData(true);
             const data = (await getData.next());
             console.log('data', data);
-            if (data.value) {
+            if (data.value && isScreenFocused) {
                 repos ? setRepos([...repos, ...data.value]) : setRepos(data.value);
             } else {
                 !data.done && setErrorFetchingData(true)
             }
             setIsFetchingMoreData(false);
         } catch (error) {
-            console.log("error .....");
             setErrorFetchingData(true);
             setIsFetchingMoreData(false);
         }
@@ -40,9 +40,6 @@ const Index = ({ route }: StackScreenProps<HomeParams, "Repository">) => {
     useEffect(() => {
         fetchData();
     }, []);
-    useEffect(() => {
-        console.log(repos);
-    }, [repos]);
 
     return (
         <ErrorScreenWrapper isVisible={errorFetchingData} onPress={fetchData}>
@@ -50,7 +47,7 @@ const Index = ({ route }: StackScreenProps<HomeParams, "Repository">) => {
                 <FlatList
                     data={repos}
                     style={{ backgroundColor: "white" }}
-                    contentContainerStyle={{ paddingVertical: 20 }}
+                    contentContainerStyle={{ paddingVertical: medium }}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
                         <Item>
@@ -69,7 +66,7 @@ const Index = ({ route }: StackScreenProps<HomeParams, "Repository">) => {
     );
 };
 const Item = React.memo(styled.View`
-  padding: 15px 20px;
+  padding: 15px ${medium}px;
   border-bottom-width: 0.4px;
   border-bottom-color: rgba(0, 0, 0, 0.3);
 `);

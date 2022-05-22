@@ -3,14 +3,16 @@ import React from 'react'
 import { RepoSummary } from '../../../components'
 import styled from 'styled-components/native'
 import { Repository } from '../../../types'
+import { SPACES } from '../../../constants'
 
 interface Props {
     data: Repository[]
 }
+const { medium } = SPACES
 const PinnedRepositories = ({ data }: Props) => {
 
     return (
-        <Container horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ padding: 20 }} >
+        <Container horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ padding: medium }} >
             {data.map((data, index) =>
                 <ItemContainer key={index} >
                     <RepoSummary showHeader  {...data} maxLines={1} />
@@ -33,7 +35,7 @@ const ItemContainer = styled.View`
     padding: 15px;
     width: 320px;
     border-width: 0.5px;
-    margin-right: 20px;
+    margin-right: ${medium}px;
     border-radius: 5px;
     border-color: gray;
 `

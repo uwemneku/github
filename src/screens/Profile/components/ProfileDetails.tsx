@@ -7,6 +7,7 @@ import Octicons from "@expo/vector-icons/Octicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Divider from "../../../components/Divider";
 import FollowButton from "./FollowButton";
+import { SPACES } from "../../../constants";
 
 type Props = Pick<
     User,
@@ -20,6 +21,8 @@ type Props = Pick<
     | "login"
     | "name"
 >;
+
+const { small, medium } = SPACES
 
 const ProfileDetails = ({
     avatar_url,
@@ -36,8 +39,8 @@ const ProfileDetails = ({
         <Container>
             <Header>
                 <Avatar imageUrl={avatar_url} />
-                <View style={{ marginLeft: 10 }}>
-                    <StyledText weight="bold" size={20}>
+                <View style={{ marginLeft: small }}>
+                    <StyledText weight="bold" size={medium}>
                         {name}
                     </StyledText>
                     <StyledText weight="300" size={13}>
@@ -84,16 +87,16 @@ const ProfileDetails = ({
     );
 };
 
+interface ListItemProps {
+    left: React.ReactElement | string; // When left is a string, it will be rendered as an icon
+    right: React.ReactElement;
+}
 const ListItem = ({
     left,
     right,
-}: {
-        [key in "left" | "right"]: key extends "left"
-        ? JSX.Element | string
-        : JSX.Element;
-    }) => {
+}: ListItemProps) => {
     return (
-        <FlexContainer style={{ marginBottom: 10 }} >
+        <FlexContainer style={{ marginBottom: small }} >
             {typeof left === "string" ? (
                 <Octicons name={left as any} size={15} color="gray" />
             ) : (
@@ -105,17 +108,17 @@ const ListItem = ({
     );
 };
 
-const Spacing = () => <Divider direction="horizontal" size={10} />;
+const Spacing = () => <Divider direction="horizontal" size={small} />;
 
 const Container = styled.View`
-  padding: 20px;
+  padding: ${medium}px;
   background-color: white;
 `;
 
 const Header = styled.View`
   flex-direction: row;
   align-items: center;
-  padding: 20px 0px;
+  padding: ${medium}px 0px;
 `;
 
 export default ProfileDetails;
