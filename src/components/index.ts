@@ -6,3 +6,5 @@ export { default as FlexContainer } from "./FlexContainer";
 export { default as LoadingView } from "./LoadingView";
 export { default as ErrorScreenWrapper } from "./ErrorScreenWrapper";
 export { default as SlideInView } from "./SlideInView";
+export { default as IconWithText } from "./IconWithText";
+export { default as AvatarAndUsername } from "./AvatarAndUsername";
